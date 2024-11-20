@@ -1,0 +1,186 @@
+/* Styling untuk body */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header styling */
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Hover effect untuk menu */
+nav ul li a:hover {
+    color: #FFD700;
+}
+
+/* Hero section untuk halaman utama */
+.hero {
+    background-image: url('/images/pisang-background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.hero-content {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hero h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #FFD700;
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.cta-button:hover {
+    background-color: #FFA500;
+}
+
+/* Main content section */
+main {
+    padding: 20px;
+    text-align: left;
+}
+
+/* Footer styling */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.map-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.bar-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.bar-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.bar {
+    width: 100%; /* Atur lebar sesuai dengan panjang bar */
+    height: 30px; /* Atur tinggi bar sesuai kebutuhan */
+    background-color: #007bff; /* Ganti warna sesuai kebutuhan */
+    margin-right: 10px; /* Jarak antara bar dan label */
+}
+
+.bar-container {
+    display: flex; /* Menggunakan flexbox */
+    align-items: center; /* Rata tengah secara vertikal */
+    position: relative; /* Memungkinkan penggunaan posisi absolut di dalamnya */
+    margin-bottom: 20px; /* Spasi antar bar */
+}
+
+.bar-title {
+    margin-left: 10px; /* Spasi antara bar dan label */
+    cursor: pointer; /* Mengubah kursor saat hover */
+}
+
+.bar {
+    height: 100%; /* Memastikan bar mengisi tinggi container */
+    background-color: #4CAF50; /* Contoh warna bar */
+    position: relative; /* Mengatur konteks posisi untuk label */
+}
+
+.bar-title {
+    font-size: 12px;
+    margin: 0;
+    position: absolute; /* Mengatur posisi label menjadi absolute */
+    right: 10px; /* Menempatkan label di sebelah kanan bar */
+    top: 50%; /* Menjaga label berada di tengah tinggi bar */
+    transform: translateY(-50%); /* Menggeser label agar benar-benar di tengah */
+    background-color: rgba(255, 255, 255, 0.8); /* Menambahkan latar belakang semi-transparan agar terlihat */
+    padding: 2px 5px; /* Ruang di dalam label */
+    border-radius: 3px; /* Membuat sudut label melengkung */
+}
+.map-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Mengatur kolom untuk setiap bar */
+}
+
+.bar-container {
+    display: flex; /* Menggunakan flexbox */
+    align-items: center; /* Rata tengah secara vertikal */
+    position: relative; /* Memungkinkan penggunaan posisi absolut di dalamnya */
+    margin-bottom: 20px; /* Spasi antar bar */
+    width: 100%; /* Mengatur lebar bar */
+}
+
+.bar-title {
+    margin-left: 10px; /* Spasi antara bar dan label */
+    cursor: pointer; /* Mengubah kursor saat hover */
+}
+body {
+    background-image: url('images/OIG2.jpeg'); /* Ganti dengan path relatif atau absolut ke gambar */
+    background-size: cover; /* Menutupi seluruh area */
+    background-repeat: no-repeat; /* Tidak mengulang gambar */
+}
+
