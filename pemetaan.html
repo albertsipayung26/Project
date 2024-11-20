@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemetaan Penyebaran Black Sigatoka</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: hsl(230, 23%, 95%);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .plot-container {
+            margin-top: 20px;
+        }
+
+        .plot {
+            position: relative;
+            width: 600px; /* Lebar kontainer plot */
+            margin: 20px; /* Margin untuk plot */
+        }
+
+        .bar-container {
+            position: relative; /* Agar label bisa diposisikan relatif terhadap container */
+            height: 40px; /* Tinggi bar */
+            margin-bottom: 1px; /* Jarak antar bar container */
+        }
+
+        .bar {
+            background-color: #fbfffb; /* Warna bar */
+            height: 30px; /* Tinggi bar */
+            position: absolute; /* Posisi absolut untuk memudahkan pemindahan */
+            cursor: pointer; /* Kursor pointer saat hover */
+            width: 150px; /* Lebar bar */
+            left: 0; /* Posisi awal */
+        }
+
+        .label {
+            position: absolute;
+            left: 160px; /* Jarak label 10px dari bar */
+            white-space: nowrap; /* Agar teks tidak terpotong */
+            cursor: pointer; /* Kursor pointer saat hover pada label */
+        }
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 10;
+        }
+
+        .dot-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            position: relative;
+            height: 150px;
+            border: 1px solid #ccc;
+            background-color: hsl(210, 50%, 90%);
+        }
+
+        .dot {
+            height: 5px;
+            width: 5px;
+            border-radius: 100%;
+            position: absolute;
+        }
+
+        .red {
+            background-color: #ff4d4d;
+        }
+
+        .yellow {
+            background-color: #ffcc00;
+        }
+
+        .green {
+            background-color: #66cc66;
+        }
+
+        /* Styling untuk legenda */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex; /* Mengatur flexbox untuk tata letak */
+        }
+
+        .map-container {
+            flex: 1; /* Membiarkan peta mengambil sisa ruang */
+            position: relative; /* Memungkinkan posisi absolut untuk legend */
+        }
+
+        .legend-container {
+            background-color: white;
+            border: 5px solid #000;
+            border-radius: 10px;
+            padding: 150px;
+            width: 300px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            position: absolute; /* Menempatkan legend di posisi absolut */
+            top: 400px; /* Jarak dari atas */
+            right: 3800px; /* Jarak dari kanan */
+            z-index: 10; /* Memastikan legend di atas elemen lain */
+        }
+
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .scale {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .color-box {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border: 1px solid #000;
+        }
+
+        .clean {
+            background-color: green;
+        }
+
+        .early-streak {
+            background-color: yellow;
+        }
+
+        .early-spot {
+            background-color: red;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+        
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <section id="pemetaan">
+            <div class="plot-container">
+                <!-- Plot 1 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="35" data-yellow="15" data-red="50" data-width="150"></div>
+                        <div class="label" onclick="showTooltip(event, 35, 15, 50)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="25" data-yellow="50" data-red="25" data-width="150"></div>
+                        <div class="label" onclick="showTooltip(event, 25, 50, 25)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="45" data-yellow="30" data-red="25" data-width="150"></div>
+                        <div class="label" onclick="showTooltip(event, 45, 30, 25)">Baris 3</div>
+                    </div>
+                </div>
+
+                <!-- Plot 2 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="20" data-yellow="40" data-red="40" data-width="450"></div>
+                        <div class="label" onclick="showTooltip(event, 20, 40, 40)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="60" data-yellow="20" data-red="20" data-width="450"></div>
+                        <div class="label" onclick="showTooltip(event, 60, 20, 20)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="30" data-yellow="50" data-red="20" data-width="450"></div>
+                        <div class="label" onclick="showTooltip(event, 30, 50, 20)">Baris 3</div>
+                    </div>
+                </div>
+
+                <!-- Plot 3 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="10" data-yellow="60" data-red="30" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 10, 60, 30)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="50" data-yellow="30" data-red="20" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 50, 30, 20)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="25" data-yellow="25" data-red="50" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 25, 25, 50)">Baris 3</div>
+                    </div>
+                </div>
+
+                <!-- Plot 4 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="45" data-yellow="45" data-red="10" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 45, 45, 10)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="35" data-yellow="40" data-red="25" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 35, 40, 25)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="60" data-yellow="30" data-red="10" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 60, 30, 10)">Baris 3</div>
+                    </div>
+                </div>
+
+                <!-- Plot 5 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="50" data-yellow="30" data-red="20" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 50, 30, 20)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="30" data-yellow="40" data-red="30" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 30, 40, 30)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="20" data-yellow="60" data-red="20" data-width="550"></div>
+                        <div class="label" onclick="showTooltip(event, 20, 60, 20)">Baris 3</div>
+                    </div>
+                </div>
+
+                <!-- Plot 6 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="30" data-yellow="30" data-red="40" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 30, 30, 40)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="45" data-yellow="35" data-red="20" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 45, 35, 20)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="25" data-yellow="50" data-red="25" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 25, 50, 25)">Baris 3</div>
+                    </div>
+                </div>
+
+                <!-- Plot 7 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="40" data-yellow="40" data-red="20" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 40, 40, 20)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="60" data-yellow="20" data-red="20" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 60, 20, 20)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="10" data-yellow="70" data-red="20" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 10, 70, 20)">Baris 3</div>
+                    </div>
+                </div>
+
+                <!-- Plot 8 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="20" data-yellow="50" data-red="30" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 20, 50, 30)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="30" data-yellow="40" data-red="30" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 30, 40, 30)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="50" data-yellow="30" data-red="20" data-width="700"></div>
+                        <div class="label" onclick="showTooltip(event, 50, 30, 20)">Baris 3</div>
+                    </div>
+                </div>
+
+                <!-- Plot 9 -->
+                <div class="plot">
+                    <div class="bar-container">
+                        <div class="bar" data-green="50" data-yellow="20" data-red="30" data-width="350"></div>
+                        <div class="label" onclick="showTooltip(event, 50, 20, 30)">Baris 1</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="30" data-yellow="50" data-red="20" data-width="350"></div>
+                        <div class="label" onclick="showTooltip(event, 30, 50, 20)">Baris 2</div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" data-green="20" data-yellow="30" data-red="50" data-width="350"></div>
+                        <div class="label" onclick="showTooltip(event, 20, 30, 50)">Baris 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legenda -->
+                <div class="legend-container">
+                    <div class="title">PETA SEBARAN TINGKAT PENYAKIT BLACK SIGATOKA</div>
+                    <div class="scale">SKALA: 1:2,500</div>
+        
+                    <div class="legend-item">
+                        <div class="color-box clean"></div>
+                        <div>Clean</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box early-streak"></div>
+                        <div>Early Streak</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box early-spot"></div>
+                        <div>Early Spot</div>
+                    </div>
+        
+                    <div class="footer">
+                        TEKNIK FISIKA<br>
+                        FAKULTAS TEKNIK<br>
+                        INSTITUT TEKNOLOGI SUMATERA
+                    </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Menampilkan tooltip ketika label diklik
+        function showTooltip(event, green, yellow, red) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.display = 'block';
+            tooltip.style.left = `${event.pageX + 10}px`;
+            tooltip.style.top = `${event.pageY + 10}px`;
+            tooltip.innerHTML = `
+                <strong>Persentase:</strong><br>
+                Hijau: ${green}%<br>
+                Kuning: ${yellow}%<br>
+                Merah: ${red}%
+            `;
+        }
+
+        // Menghilangkan tooltip saat mouse keluar
+        document.addEventListener('click', (event) => {
+            const tooltip = document.getElementById('tooltip');
+            if (event.target.closest('.label') === null) {
+                tooltip.style.display = 'none';
+            }
+        });
+        // Atur lebar bar berdasarkan atribut data-width
+        function setBarWidths() {
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = `${width}px`;
+
+                    // Event listener untuk drag-and-drop
+                    bar.addEventListener('mousedown', startDrag);
+                    bar.addEventListener('mouseup', endDrag);
+                    bar.addEventListener('mousemove', drag);
+
+                    // Event listener pada label
+                    const label = bar.nextElementSibling;
+                    label.addEventListener('mousedown', startDrag);
+                    label.addEventListener('mouseup', endDrag);
+                    label.addEventListener('mousemove', drag);
+                });
+            }
+
+            let isDragging = false;
+        let dragElement = null;
+        let offsetX = 0;
+
+        function startDrag(event) {
+            isDragging = true;
+            dragElement = event.target;
+            offsetX = event.clientX - dragElement.getBoundingClientRect().left;
+            event.stopPropagation();
+        }
+
+        function endDrag() {
+            isDragging = false;
+            dragElement = null;
+        }
+
+        function drag(event) {
+            if (isDragging && dragElement) {
+                const newX = event.clientX - offsetX;
+                dragElement.style.left = `${newX}px`;
+                const label = dragElement.nextElementSibling; // Ambil label setelah bar
+                label.style.left = `${newX + dragElement.offsetWidth + 10}px`; // Jaga jarak tetap 10px dari bar
+            }
+        }
+
+        const bars = document.querySelectorAll('.bar');
+        bars.forEach(bar => {
+            bar.addEventListener('mousedown', startDrag);
+        });
+
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('mousemove', drag);
+            
+        // Function to create dots inside the bars based on exact percentages
+        function createRandomDots() {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach(bar => {
+                const greenPercentage = parseInt(bar.getAttribute('data-green'), 10);
+                const yellowPercentage = parseInt(bar.getAttribute('data-yellow'), 10);
+                const redPercentage = parseInt(bar.getAttribute('data-red'), 10);
+
+                const totalDots = 100;
+                const numGreen = Math.floor(greenPercentage);
+                const numYellow = Math.floor(yellowPercentage);
+                const numRed = Math.floor(redPercentage);
+
+                for (let i = 0; i < numGreen; i++) {
+                    const dot = createDot('green', bar.clientWidth, bar.clientHeight);
+                    bar.appendChild(dot);
+                }
+                for (let i = 0; i < numYellow; i++) {
+                    const dot = createDot('yellow', bar.clientWidth, bar.clientHeight);
+                    bar.appendChild(dot);
+                }
+                for (let i = 0; i < numRed; i++) {
+                    const dot = createDot('red', bar.clientWidth, bar.clientHeight);
+                    bar.appendChild(dot);
+                }
+            });
+        }
+
+        function createDot(color, barWidth, barHeight) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot', color);
+            const left = Math.random() * (barWidth - 5) + 'px';
+            const top = Math.random() * (barHeight - 5) + 'px';
+            dot.style.left = left;
+            dot.style.top = top;    
+            return dot;
+        }
+
+        window.onload = function() {
+            setBarWidths();
+            createRandomDots(); 
+            document.addEventListener('click', hideTooltip);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Sigatoka</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            background-image: url('images/background.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .header-content {
+            position: relative;
+            z-index: 1;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .logo img {
+            width: 100px;
+        }
+        .nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 25px;
+            transition: background 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+        .nav a:hover {
+            background: white;
+            color: black;
+        }
+        .title {
+            font-size: 50px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .title span {
+            color: yellow;
+        }
+        .content {
+            padding: 20px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .content.active {
+            display: block;
+            animation: fadeInSlide 1s ease forwards;
+        }
+
+        @keyframes fadeInSlide {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .text {
+            flex: 1;
+            padding: 20px;
+            max-width: 600px;
+        }
+        .image {
+            flex: 1;
+            text-align: center;
+        }
+        .image img {
+            max-width: 50%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .learn-more-btn {
+            background: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .learn-more-btn:hover {
+            background: darkred;
+        }
+    </style>
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content');
+            sections.forEach(section => {
+                if (section.classList.contains('active')) {
+                    section.style.opacity = 0;
+                    section.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        section.classList.remove('active');
+                    }, 500);
+                }
+            });
+            const activeSection = document.getElementById(sectionId);
+            activeSection.classList.add('active');
+            setTimeout(() => {
+                activeSection.style.opacity = 1;
+                activeSection.style.transform = 'translateY(0)';
+            }, 10);
+        }
+
+        function navigateToPage(url) {
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="nav">
+            <a href="#" onclick="showSection('home')">HOME</a>
+            <a href="#" onclick="showSection('database')">DATABASE</a>
+            <a href="#" onclick="showSection('penyebaran')">PENYEBARAN</a>
+            <a href="#" onclick="showSection('gejala')">GEJALA</a>
+            <a href="#" onclick="showSection('pencegahan')">PENCEGAHAN</a>
+            <a href="#" onclick="showSection('tentang')">TENTANG</a>
+            <a href="#" onclick="showSection('kontak')">KONTAK</a>
+        </div>
+        <div class="header-content">
+            <div class="logo">
+                <img src="https://storage.googleapis.com/a1aa/image/UdXPUQE1Jo7mFpDedPRrxvmHRkMO7LYSEpeDMC6GjOC1Z7kTA.jpg" alt="Black Sigatoka Logo" />
+            </div>
+            <div class="title">
+                BLACK <span>SIGATOKA</span>
+            </div>
+            <div class="subtitle">
+                Informasi Mengenai Penyakit Black Sigatoka Pada Tanaman Pisang
+            </div>
+        </div>
+    </div>
+
+    <div id="home" class="content active">
+        <h2>Selamat Datang di Black Sigatoka</h2>
+        <p>Informasi terkait penyebaran, gejala, dan pencegahan penyakit Black Sigatoka.</p>
+    </div>
+
+    <div id="database" class="content">
+        <div class="section">
+            <div class="text">
+                <h2>Database Black Sigatoka</h2>
+                <p>Database berisi data penyebaran, gejala, dan informasi penting lainnya mengenai Black Sigatoka.</p>
+                <button class="learn-more-btn" onclick="navigateToPage('database.html')">Pelajari Lebih Lanjut</button>
+            </div>
+            <div class="image">
+                <img src="/images/database.jpeg" alt="Gambar Database" />
+            </div>
+        </div>
+    </div>
+    
+    <div id="penyebaran" class="content">
+        <div class="section">
+            <div class="text">
+                <h2>Penyebaran Black Sigatoka</h2>
+                <p>Penyakit ini menyebar melalui spora yang terbawa angin dan air.</p>
+                <button class="learn-more-btn" onclick="navigateToPage('penyebaran.html')">Pelajari Lebih Lanjut</button>
+            </div>
+            <div class="image">
+                <img src="/images/penyeberan.jpeg" alt="Gambar Penyebaran" />
+            </div>
+        </div>
+    </div>
+    
+    <div id="gejala" class="content">
+        <div class="section">
+            <div class="text">
+                <h2>Gejala Black Sigatoka</h2>
+                <p>Gejala termasuk bercak hitam pada daun yang menyebabkan daun mati.</p>
+                <button class="learn-more-btn" onclick="navigateToPage('gejala.html')">Pelajari Lebih Lanjut</button>
+            </div>
+            <div class="image">
+                <img src="/images/gejala.jpeg" alt="Gambar Gejala" />
+            </div>
+        </div>
+    </div>
+    
+    <div id="pencegahan" class="content">
+        <div class="section">
+            <div class="text">
+                <h2>Pencegahan Black Sigatoka</h2>
+                <p>Pencegahan dapat dilakukan dengan fungisida dan kebersihan kebun.</p>
+                <button class="learn-more-btn" onclick="navigateToPage('pencegahan.html')">Pelajari Lebih Lanjut</button>
+            </div>
+            <div class="image">
+                <img src="/images/pencegahan.jpeg" alt="Gambar Pencegahan" />
+            </div>
+        </div>
+    </div>
+
+    <div id="tentang" class="content">
+        <div class="section">
+            <div class="text">
+                <h2>Tentang Black Sigatoka</h2>
+                <p>Black Sigatoka adalah penyakit yang disebabkan oleh jamur yang menyerang tanaman pisang.</p>
+                <button class="learn-more-btn" onclick="navigateToPage('tentang.html')">Pelajari Lebih Lanjut</button>
+            </div>
+            <div class="image">
+                <img src="/images/tentang.jpeg" alt="Gambar Tentang" />
+            </div>
+        </div>
+    </div>
+    
+    <div id="kontak" class="content">
+        <div class="section">
+            <div class="text">
+                <h2>Kontak</h2>
+                <p>Hubungi kami untuk informasi lebih lanjut tentang Black Sigatoka.</p>
+                <button class="learn-more-btn" onclick="navigateToPage('kontak.html')">Pelajari Lebih Lanjut</button>
+            </div>
+            <div class="image">
+                <img src="/images/kontak.jpeg" alt="Gambar Kontak" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>
